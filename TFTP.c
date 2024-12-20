@@ -27,14 +27,14 @@ int main(int argc, char *argv[]){
 
     hints.ai_family = AF_INET;        // IPv4
     hints.ai_socktype = SOCK_DGRAM; // UDP 
-<<<<<<< HEAD
+
 
     
     int status = getaddrinfo(server, "1069", &hints, &res);
-=======
+
     
     int status = getaddrinfo(server, NULL, &hints, &res);
->>>>>>> 88f7285ab24d4bbb9a47424ddfc50f784b06c405
+
     if (res==NULL){
         printf("Res is null");
     }
