@@ -11,7 +11,7 @@
 #define RRQ_OPCODE 1
 #define SIZE 512
 
-int getftftp(char *server, char *file, struct addrinfo *res) {
+int gettftp(char *server, char *file, struct addrinfo *res) {
     unsigned char buf[SIZE]; 
     int offset = 0;          // Offset to write data in the buffer
 
@@ -23,8 +23,7 @@ int getftftp(char *server, char *file, struct addrinfo *res) {
     buf[offset++] = RRQ_OPCODE;
 
 
-    // Add the requested file name to the buffer
-    strcpy((char *)&buf[offset], file);
+    // Add the requested file name to the buffers
     offset += strlen(file) + 1;
 
     // Add the transfer mode "octet" to the buffer

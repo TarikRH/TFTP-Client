@@ -5,6 +5,9 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include "gettftp.h"
+
+
 
 
 
@@ -16,27 +19,35 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    char *server = argv[1];
+    char *server = argv[1];  
     char *file = argv[2];
 
     struct addrinfo hints,*res;
     memset(&hints,0,sizeof(hints));
 
     hints.ai_family = AF_INET;        // IPv4
-    hints.ai_socktype = SOCK_STREAM; // TCP 
+    hints.ai_socktype = SOCK_DGRAM; // UDP 
+
     
-    int status = getaddrinfo(server, NULL, &hints, &res);
+    int status = getaddrinfo(server, "1069", &hints, &res);
+    if (res==NULL){
+        printf("Res is null");
+    }
     if (status != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
         exit(EXIT_FAILURE);
     }
 
+
+    // Binary to Str
     struct sockaddr_in *ipv4 = (struct sockaddr_in *)res->ai_addr;
     char ipstr[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET, &(ipv4->sin_addr), ipstr, sizeof(ipstr));  // Binary to Str
+    inet_ntop(AF_INET, &(ipv4->sin_addr), ipstr, sizeof(ipstr)); 
 
-    int sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-    
+    // Call the gettftp function to send a TFTP (RRQ) request
+    int rqq = gettftp(server,file,res);
+    printf("%d\n",rqq);
+
     printf("Serveur :%s \nFichier : %s\n",server,file);
     printf("Adresse IP : %s\n", ipstr);
     freeaddrinfo(res);
