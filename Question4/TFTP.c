@@ -19,8 +19,9 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    char *server = argv[1];  
-    char *file = argv[2];
+    char *server = argv[1];   // Server adress
+    char *file = argv[2]; // File name
+
 
     struct addrinfo hints,*res;
     memset(&hints,0,sizeof(hints));
@@ -28,14 +29,9 @@ int main(int argc, char *argv[]){
     hints.ai_family = AF_INET;        // IPv4
     hints.ai_socktype = SOCK_DGRAM; // UDP 
 
-
-    
     int status = getaddrinfo(server, "1069", &hints, &res);
 
-    
-    int status = getaddrinfo(server, NULL, &hints, &res);
-
-    if (res==NULL){
+    if (res==NULL){ // verify if res is null
         printf("Res is null");
     }
     if (status != 0) {
